@@ -1,0 +1,97 @@
+PImage img; 
+PImage painting1;
+PImage painting2;
+PImage bruh;
+color c;
+int pixelSize;
+PFont font;
+String[] fontList = PFont.list();
+ArrayList<Integer> binaryCode = new ArrayList<Integer>();
+Integer randomIndex = int(random(fontList.length));
+
+
+void setup() {
+  size(600,700);
+  colorMode(HSB,255);
+  pixelSize = 10;
+  
+  font = createFont(fontList[randomIndex],1);
+  textFont(font);
+  textSize(pixelSize);
+  
+  bruh = loadImage("bruh.jpg");
+  bruh.resize(600,600);
+  
+  img = loadImage("reference_photo.jpg");
+  img.resize(600,700);
+
+  painting1 = loadImage("painting1.png");
+  painting1.resize(600,700);
+  
+  painting2 = loadImage("painting2.png");
+  painting2.resize(600,700);
+
+}
+
+void draw() {
+  background(0);
+  //image(img,0,0);
+  //image(bruh,0,0);
+  //colorPicker();
+  //pixelMaker(bruh);
+  //binary(bruh);
+  ascii(img);
+  
+}
+
+void ascii(PImage input){
+  for(int i = 0; i < input.width; i += pixelSize){
+    for(int j = 0; j < input.height; j += pixelSize){
+      color c = input.get(i + (pixelSize/2),j + (pixelSize/2)); 
+      if(brightness(c) < 150){
+        text('.', i, j);
+      }else{
+        text('%', i, j); 
+      }
+    }
+  }
+}
+
+
+void binary(PImage input){
+  
+   for(int i = 0; i < input.width; i += pixelSize){
+      for(int j = 0; j < input.height; j += pixelSize){
+      color c = input.get(i + (pixelSize/2),j + (pixelSize/2)); 
+      if(brightness(c)< 150){
+        fill(0);
+        text(1,i,j);
+        binaryCode.add(1);
+      }else{
+        fill(250);
+        text(0,i,j);
+        binaryCode.add(0);
+      }
+    }
+  }
+}
+
+
+void pixelMaker(PImage input){
+  
+  for(int i = 0; i < input.width; i += pixelSize){
+      for(int j = 0; j < input.height; j += pixelSize){
+      color c = input.get(i + (pixelSize/2),j + (pixelSize/2)); 
+      fill(c);
+      noStroke();
+        rect(i,j,pixelSize, pixelSize);
+      }
+    }
+}
+
+void colorPicker(){
+  color c = get(mouseX, mouseY);
+    fill(c);
+    noStroke();
+    rect(mouseX -50, mouseY -50, 100, 100);    
+}
